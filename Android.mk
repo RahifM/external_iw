@@ -26,7 +26,9 @@ LOCAL_MODULE := iw
 LOCAL_MODULE_CLASS := EXECUTABLES
 LOCAL_GENERATED_SOURCES := $(local-generated-sources-dir)/version.c
 $(LOCAL_GENERATED_SOURCES) : $(LOCAL_PATH)/version.sh
+	@echo "Generated: $@"
 	@mkdir -p $(dir $@)
-	$(hide) $< $@
+	$(hide) echo '#include "iw.h"' >$@
+	$(hide) echo "const char iw_version[] = $$(grep ^VERSION $< | sed "s/VERSION=//");" >>$@
 
 include $(BUILD_EXECUTABLE)
